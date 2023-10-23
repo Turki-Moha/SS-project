@@ -41,7 +41,6 @@ class Operations extends DBConfig{
             throw new Exception($e->getMessage());
         }
     }
-
     // insecure loginUser function for demonstration purposes
     public function insecureLoginUser($username, $password){
         try{
@@ -64,7 +63,5 @@ class Operations extends DBConfig{
             throw new Exception($e->getMessage());
         }
     }
-
 }
-
 ?>
