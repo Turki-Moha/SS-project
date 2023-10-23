@@ -1,11 +1,3 @@
-<?php
-
-require 'db.php';
-
-// select all user data and place it in a table with edit and delete options.
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,10 +10,17 @@ require 'db.php';
     <ul>
         <li><a href="index.html">Home</a></li>
         <?php 
+            require 'operations.php';
+            $operations = new Operations();
+            $operations->dbConnect();
             if(isset($_SESSION['user_id'])){
-
-                echo '<li><a href="logout.php">Logout</a></li>';
+                echo "<li><a href='logout.php'>Logout</a></li>";
+            }else{
+                echo "";
             }
+            
+
+
         ?>
     </ul>
 </body>

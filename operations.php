@@ -63,5 +63,20 @@ class Operations extends DBConfig{
             throw new Exception($e->getMessage());
         }
     }
+    // retrive users from admin dashboard function for demonstration purposes in admin panel
+    public function retrieveUsers(){
+        try{
+            $sql = "SELECT * FROM users WHERE user_role = 'admin'";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("No users found");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    
 }
 ?>

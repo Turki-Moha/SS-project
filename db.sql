@@ -29,6 +29,9 @@ CREATE TABLE users(
     user_password VARCHAR(255) NOT NULL,
     user_role VARCHAR(255) NOT NULL
 );
+INSERT INTO users (user_name, user_password, user_email, user_role)
+VALUES ('turki', 'turki', 'turki@t.com', 'admin');
+
 INSERT INTO course (course_name, course_description, course_credits)
 VALUES (
         'Web Development',
