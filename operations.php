@@ -103,6 +103,36 @@ class Operations extends DBConfig{
             throw new Exception($e->getMessage());
         }
     }
+
+    // update course
+    public function updateCourse($course_id, $course_name, $course_description, $credits){
+        try{
+            $sql = "UPDATE course SET course_name = '$course_name', course_description = '$course_description', course_credits = '$credits' WHERE course_id = '$course_id'";
+            if($this->conn->query($sql)){
+                return true;
+            }else{
+                throw new Exception("Course update failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    // retrive single course 
+    public function retrieveCourse($course_id){
+        try{
+            $sql = "SELECT * FROM course WHERE course_id = '$course_id'";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("Course not found");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
     
 }
 ?>
