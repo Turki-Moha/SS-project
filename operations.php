@@ -64,12 +64,27 @@ class Operations extends DBConfig{
     // retrive users from admin dashboard function for demonstration purposes in admin panel
     public function retrieveUsers(){
         try{
-            $sql = "SELECT * FROM users WHERE user_role = 'admin'";
+            $sql = "SELECT * FROM users";
             $result = $this->conn->query($sql);
             if($result->num_rows > 0){
                 return $result;
             }else{
                 throw new Exception("No users found");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    // retrive courses and display them in a table
+    public function retrieveCourses(){
+        try{
+            $sql = "SELECT * FROM course";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("No courses found");
             }
         }catch(Exception $e){
             throw new Exception($e->getMessage());

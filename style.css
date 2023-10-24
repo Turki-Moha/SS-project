@@ -114,3 +114,11 @@ input:focus {
 button:hover {
     background-color: #000;
 }
+
+.span-style {
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
