@@ -44,18 +44,16 @@ class Operations extends DBConfig{
     // insecure loginUser function for demonstration purposes
     public function insecureLoginUser($username, $password){
         try{
-            $sql = "SELECT * FROM users WHERE user_name = '$username'";
+            $sql = "SELECT * FROM users WHERE user_name = '$username' and user_password = '$password'";
             $result = $this->conn->query($sql);
             if($result->num_rows > 0){
                 $row = $result->fetch_assoc();
-                if(password_verify($password, $row['user_password'])){
-                    $_SESSION['user_id'] = $row['user_id'];
-                    $_SESSION['user_name'] = $row['user_name'];
-                    $_SESSION['user_role'] = $row['user_role'];
-                    return true;
-                }else{
-                    throw new Exception("Invalid password");
-                }
+
+                $_SESSION['user_id'] = $row['user_id'];
+                $_SESSION['user_name'] = $row['user_name'];
+                $_SESSION['user_role'] = $row['user_role'];
+                return true;
+
             }else{
                 throw new Exception("Invalid username");
             }
