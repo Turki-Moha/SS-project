@@ -10,5 +10,5 @@
 
 -   put correct user name
 -   please remove any session you have
--   the password is `admin or 1=1`
--   where `1=1` always true
+-   the password is `' OR '1'='1`
+-   where `'1'='1` always true

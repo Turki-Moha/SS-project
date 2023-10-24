@@ -31,7 +31,6 @@
         $verify_password = $_POST['password'];
         try{
             if($operations->insecureLoginUser($username, $verify_password)){
-                $_SESSION['user_id'] = $row['user_id'];
                 echo "User logged in successfully";
                 header("Location: main.php");
 

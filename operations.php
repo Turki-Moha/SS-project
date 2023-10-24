@@ -47,8 +47,8 @@ class Operations extends DBConfig{
             $sql = "SELECT * FROM users WHERE user_name = '$username' and user_password = '$password'";
             $result = $this->conn->query($sql);
             if($result->num_rows > 0){
+                session_start();
                 $row = $result->fetch_assoc();
-
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['user_name'] = $row['user_name'];
                 $_SESSION['user_role'] = $row['user_role'];
