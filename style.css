@@ -116,9 +116,10 @@ button:hover {
 }
 
 .span-style {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 300;
     text-align: center;
     margin-bottom: 40px;
     color: white;
+    margin-top: 40px;
 }

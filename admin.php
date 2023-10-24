@@ -56,6 +56,7 @@
                     echo "<th>course_name</th>";
                     echo "<th>course_description</th>";
                     echo "<th>credits</th>";
+                    echo "<th></th>";
                     echo "</tr>";
                     echo "<tr>";
                     while($row = $result->fetch_assoc() ){
@@ -63,6 +64,7 @@
                         echo "<td>".$row['course_name']."</td>";
                         echo "<td>".$row["course_description"]."</td>";
                         echo "<td>".$row["course_credits"]."</td>";
+                        echo "<td><a href='delete.php?course_id=".$row['course_id']."'>Delete</a></td>";
                         echo "</tr>";
                     }
                     echo "</table>";

@@ -90,6 +90,19 @@ class Operations extends DBConfig{
             throw new Exception($e->getMessage());
         }
     }
+    // delete course from admin panel
+    public function deleteCourse($course_id){
+        try{
+            $sql = "DELETE FROM course WHERE course_id = '$course_id'";
+            if($this->conn->query($sql)){
+                return true;
+            }else{
+                throw new Exception("Course deletion failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
     
 }
 ?>
