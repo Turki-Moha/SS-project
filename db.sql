@@ -80,3 +80,5 @@ VALUES (
         'Learn how to secure a computer',
         3
     );
+
+UPDATE users SET user_role = 'admin' WHERE user_id = 1;

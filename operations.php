@@ -133,6 +133,20 @@ class Operations extends DBConfig{
         }
     }
 
+    // add course
+    public function addCourse($course_name, $course_description, $credits){
+        try{
+            $sql = "INSERT INTO course (course_name, course_description, course_credits) VALUES ('$course_name', '$course_description', '$credits')";
+            if($this->conn->query($sql)){
+                return true;
+            }else{
+                throw new Exception("Course addition failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
     
 }
 ?>

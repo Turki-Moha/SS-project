@@ -15,6 +15,7 @@
             try{
                 $result = $operations->retrieveUsers();
                 if($result->num_rows > 0){
+                    echo "Add courses <a href='add.php'>here</a>";
                     echo "<table>";
                     echo "<tr>";
                     echo "<th>user_id</th>";
@@ -35,7 +36,7 @@
                     <style>table {border-collapse: collapse;}</style>
                     <style>th, td {padding: 5px;}</style>
                     <style>th {text-align: left;}</style>
-                    <style>table {width: 80%;}</style>
+                    <style>table {width: 75%;}</style>
                     <style>th,tr,td {background-color: #f1f1f1;color: black;}</style>
                     ";
                 }else{
