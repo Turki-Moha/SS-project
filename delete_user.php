@@ -12,20 +12,22 @@
     $operations = new Operations();
     $operations->dbConnect();
 
-    if(isset($_GET['course_id'])){
-        $course_id = $_GET['course_id'];
+    if(isset($_GET['user_id'])){
+        $user_id = $_GET['user_id'];
         try{
-            $result = $operations->deleteCourse($course_id);
+            $result = $operations->deleteUser($user_id);
             if($result){
-                echo "Course deleted successfully";
+                echo "User deleted successfully";
                 header("Location: admin.php");
             }else{
-                echo "Course deletion failed";
+                echo "User deletion failed";
             }
         }catch(Exception $e){
             echo $e->getMessage();
         }
     }
+
+    
 
     ?>
 </body>

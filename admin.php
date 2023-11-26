@@ -78,5 +78,37 @@
                 echo $e->getMessage();
             }
         ?>
+        <span class="span-style">Students</span>
+        <?php
+        // retrive students from admin dashboard function for demonstration purposes in admin panel
+            try{
+                $result = $operations->retrieveStudents();
+                if($result->num_rows > 0){
+                    echo "<table>";
+                    echo "<th>student_id</th>";
+                    echo "<th>student_name</th>";
+                    echo "<th>student_email</th>";
+                    echo "<th>student_password</th>";
+                    echo "<th></th>";
+                    echo "</tr>";
+                    echo "<tr>";
+                    while($row = $result->fetch_assoc() ){
+                        echo "<td>".$row['user_id']."</td>";
+                        echo "<td>".$row['user_name']."</td>";
+                        echo "<td>".$row["user_email"]."</td>";
+                        echo "<td>".$row["user_password"]."</td>";
+                        echo "<td> <a href='delete_user.php?user_id=".$row['user_id']."'>Delete</a></td>";
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                }else{
+                    echo "No students found";
+                }
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }
+
+        ?>
+
 </body>
 </html>

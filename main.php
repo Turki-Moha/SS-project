@@ -7,43 +7,46 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <?php 
-            require 'operations.php';
-            $operations = new Operations();
-            $operations->dbConnect();
-            session_start();
-            if(isset($_SESSION['user_id'])){
-                echo "<li><a href='logout.php'>Logout</a></li>";
-                if($_SESSION['user_role'] == 'admin'){
-                    $result  = $operations->retrieveUsers();
-                    if ($result->num_rows > 0) {
-                        echo "<table>";
-                        echo "  <tr>
-                                <th>name</th>
-                                <th>email</th>
-                                <th>password</th>
-                                <th>role</th>
-                                </tr>";
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . $row['user_name'] . "</td>";
-                            echo "<td>" . $row['user_email'] . "</td>";
-                            echo "<td>" . $row['user_password'] . "</td>";
-                            echo "<td>" . $row['user_role'] . "</td>";
-                            echo "</tr>";
-                        }
-                        echo "</table>";
-                    } else {
-                        echo "No users found.";
-                    }
-                }
-            } else {
-                echo "";
-            }
-        ?>
+    <div >
+        <ul>
+            <li><a href="index.html">Home</a></li>
 
-    </ul>
+            <?php
+                require 'operations.php';
+                $operations = new Operations();
+                $operations->dbConnect();
+                session_start();
+                // display login or logout based on the user account
+                if(isset($_SESSION['user_id'])){
+                    echo "<li><a href='logout.php'>Logout</a></li>";
+                }else{
+                    echo "";
+                }
+                if(isset($_SESSION['user_id'])){
+                    echo "<li><a href='view_profile.php?user_id=".$_SESSION['user_id']."'>View profile</a></li>";
+                }
+            ?>
+        </ul>
+        <?php 
+                // display registered courses based on the user account 
+                if(isset($_SESSION['user_id'])){
+                    $user_id = $_SESSION['user_id'];
+                    try{
+                        $result = $operations->displayRegisteredCourses($user_id);
+                        if($result->num_rows > 0){
+                            while($row = $result->fetch_assoc()){
+                                echo "<li><a href='course.php?course_id=".$row['course_id']."'>".$row['course_name']."</a></li>";
+                            }
+                        }else{
+                            echo "No courses found";
+                        }
+                    }catch(Exception $e){
+                        echo $e->getMessage();
+                    }
+                }else{
+                    echo "No courses found";
+                }
+            ?>
+    </div>
 </body>
 </html>

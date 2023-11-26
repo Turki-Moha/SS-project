@@ -12,44 +12,51 @@
         include_once 'operations.php';
         $operations = new Operations();
         $operations->dbConnect();
-
+        // get course id and call the update function to update the course
         if(isset($_GET['course_id'])){
             $course_id = $_GET['course_id'];
             try{
                 $result = $operations->retrieveCourse($course_id);
                 if($result->num_rows > 0){
-                    $row = $result->fetch_assoc();
-                    $course_name = $row['course_name'];
-                    $course_description = $row['course_description'];
-                    $credits = $row['course_credits'];
+                    while($row = $result->fetch_assoc()){
+                        echo "<div class='form-design'>
+                        <form method='POST'>
+                            <div class='form-grid'>
+                                <label for='course_name'>Course name:</label>
+                                <input type='text' id='course_name' name='course_name' value='".$row['course_name']."' required><br>
+                            </div>
+                            <div class='form-grid'>
+                                <label for='course_description'>Course description:</label>
+                                <input type='text' id='course_description' name='course_description' value='".$row['course_description']."' required><br>
+                            </div>
+                            <div class='form-grid'>
+                                <label for='credits'>Credits:</label>
+                                <input type='number' id='credits' name='credits' value='".$row['course_credits']."' required><br>
+                            </div>
+                            <div class='form-grid'>
+                            <input class='Button' type='submit' value='update' name='update'></button>
+                            </div>
+                        </form>
+                    </div>";
+                    }
                 }else{
-                    echo "Course not found";
+                    echo "No courses found";
                 }
+
+                if(isset($_POST['update'])){
+                    $course_name = $_POST['course_name'];
+                    $course_description = $_POST['course_description'];
+                    $credits = $_POST['credits'];
+                    if($operations->updateCourse($course_id, $course_name, $course_description, $credits)){
+                        echo "Course updated successfully";
+                        header("Location: admin.php");
+                    }
+                }
+
             }catch(Exception $e){
                 echo $e->getMessage();
             }
         }
-
-        if(isset($_POST['update'])){
-            $course_id = $_POST['course_id'];
-            $course_name = $_POST['course_name'];
-            $course_description = $_POST['course_description'];
-            $credits = $_POST['credits'];
-            try{
-                $result = $operations->updateCourse($course_id, $course_name, $course_description, $credits);
-                if($result){
-                    echo "Course updated successfully";
-                }else{
-                    echo "Course update failed";
-                }
-            }catch(Exception $e){
-                echo $e->getMessage();
-            }
-        }
-
-
-        
-
     ?>
 </body>
 </html>

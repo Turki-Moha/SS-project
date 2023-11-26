@@ -32,8 +32,11 @@
         try{
             if($operations->insecureLoginUser($username, $verify_password)){
                 echo "User logged in successfully";
-                header("Location: main.php");
-
+                if($operations->isAdmin($username)){
+                    header("Location: admin.php");
+                }else{
+                    header("Location: main.php");
+                }
             }
         }catch(Exception $e){
             echo $e->getMessage();

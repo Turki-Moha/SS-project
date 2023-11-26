@@ -64,7 +64,7 @@ class Operations extends DBConfig{
     // retrive users from admin dashboard function for demonstration purposes in admin panel
     public function retrieveUsers(){
         try{
-            $sql = "SELECT * FROM users";
+            $sql = "SELECT * FROM users ";
             $result = $this->conn->query($sql);
             if($result->num_rows > 0){
                 return $result;
@@ -147,6 +147,90 @@ class Operations extends DBConfig{
         }
     }
 
-    
+    // display registered courses based on the user account
+    public function displayRegisteredCourses($user_id){
+        try{
+            $sql = "SELECT * FROM course WHERE course_id IN (SELECT course_id FROM enrollment WHERE student_id = '$user_id')";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("No courses found");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    // check if user is admin
+    public function isAdmin($username){
+        try{
+            $sql = "SELECT * FROM users WHERE user_name = '$username' and user_role = 'admin'";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    // retrive students 
+    public function retrieveStudents(){
+        try{
+            $sql = "SELECT * FROM users WHERE user_role = 'user'";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("No students found");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    // delete user from admin panel
+    public function deleteUser($user_id){
+        try{
+            $sql = "DELETE FROM users WHERE user_id = '$user_id'";
+            if($this->conn->query($sql)){
+                return true;
+            }else{
+                throw new Exception("User deletion failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    // retrive user data from the database
+    public function displayUser($user_id){
+        try{
+            $sql = "SELECT * FROM users WHERE user_id = '$user_id'";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("No user found");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    public function updateUser($user_id, $username, $email, $password){
+        try{
+            $sql = "UPDATE users SET user_name = '$username', user_email = '$email', user_password = '$password' WHERE user_id = '$user_id'";
+            if($this->conn->query($sql)){
+                return true;
+            }else{
+                throw new Exception("User update failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
 }
 ?>
