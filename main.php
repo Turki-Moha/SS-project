@@ -28,6 +28,40 @@
             ?>
         </ul>
         <?php 
+            // display all courses in a table
+            try{
+                $result = $operations->retrieveCourses();
+                if($result->num_rows > 0){
+                    echo "<span style='font-size: 20px;margin:10px;display:block;'>Courses of the system</span>";
+                    echo "<table>";
+                    echo "<tr>";
+                    echo "<th>course_name</th>";
+                    echo "<th>course_description</th>";
+                    echo "<th>credits</th>";
+                    echo "</tr>";
+                    echo "<tr>";
+                    while($row = $result->fetch_assoc() ){
+                        echo "<td>".$row['course_name']."</td>";
+                        echo "<td>".$row["course_description"]."</td>";
+                        echo "<td>".$row["course_credits"]."</td>";
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                    echo "<style>table, th, td {border: 1px solid black;}</style>
+                    <style>table {border-collapse: collapse;}</style>
+                    <style>th, td {padding: 5px;}</style>
+                    <style>th {text-align: left;}</style>
+                    <style>table {width: 100%;}</style>
+                    <style>th,tr,td {background-color: #f1f1f1;color: black;}</style>
+                    ";
+                }else{
+                    echo "No courses found";
+                }
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }
+
+
                 // display registered courses based on the user account 
                 if(isset($_SESSION['user_id'])){
                     $user_id = $_SESSION['user_id'];
