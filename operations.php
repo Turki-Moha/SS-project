@@ -191,6 +191,20 @@ class Operations extends DBConfig{
             throw new Exception($e->getMessage());
         }
     }
+    // retrive single student
+    public function retrieveStudent($user_id){
+        try{
+            $sql = "SELECT * FROM users WHERE user_id = '$user_id' AND user_role = 'user'";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("Student not found");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
 
     // delete user from admin panel
     public function deleteUser($user_id){
@@ -240,6 +254,74 @@ class Operations extends DBConfig{
                 return true;
             }else{
                 throw new Exception("Enrollment failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    //display enrolled courses with each student
+    public function displayEnrolledCourses(){
+        try{
+            $sql = "SELECT * FROM enrollment INNER JOIN course ON enrollment.course_id = course.course_id INNER JOIN users ON enrollment.user_id = users.user_id";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("No courses found");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    // check if user is already enrolled in a course
+    public function checkEnrollment($user_id, $course_id){
+        try{
+            $sql = "SELECT * FROM enrollment WHERE user_id = '$user_id' AND course_id = '$course_id'";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                return false;
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    // delete enrollment
+    public function deleteEnrollment($user_id, $course_id){
+        try{
+            $sql = "DELETE FROM enrollment WHERE user_id = '$user_id' AND course_id = '$course_id'";
+            if($this->conn->query($sql)){
+                return true;
+            }else{
+                throw new Exception("Enrollment deletion failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    // update enrollment
+    public function updateEnrollment($user_id, $course_id, $semester, $year, $grade){
+        try{
+            $sql = "UPDATE enrollment SET enrollment_semester = '$semester', enrollment_year = '$year', enrollment_grade = '$grade' WHERE user_id = '$user_id' AND course_id = '$course_id'";
+            if($this->conn->query($sql)){
+                return true;
+            }else{
+                throw new Exception("Enrollment update failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    // retrieve enrollment
+    public function retrieveEnrollment($user_id, $course_id){
+        try{
+            $sql = "SELECT * FROM enrollment WHERE user_id = '$user_id' AND course_id = '$course_id'";
+            $result = $this->conn->query($sql);
+            if($result->num_rows > 0){
+                return $result;
+            }else{
+                throw new Exception("Enrollment not found");
             }
         }catch(Exception $e){
             throw new Exception($e->getMessage());

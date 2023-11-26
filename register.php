@@ -35,11 +35,11 @@
     $operations->dbConnect();
     if(isset($_POST['submit'])){
         $username = $_POST['username'];
-        $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $password = $_POST['password'];
         $email = $_POST['email'];
 
         try{
-            if($operations->registerUser($username, $hashed_password, $email)){
+            if($operations->registerUser($username, $password, $email)){
                 echo "User registered successfully";
                 header("Location: login.php");
             }

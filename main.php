@@ -91,7 +91,7 @@
                                 <style>table {border-collapse: collapse;}</style>
                                 <style>th, td {padding: 5px;}</style>
                                 <style>th {text-align: left;}</style>
-                                <style>table {width: 100%;}</style>
+                                <style>table {width: 75%;}</style>
                                 <style>th,tr,td {background-color: #f1f1f1;color: black;}</style>
                                 ";
                             }

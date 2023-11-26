@@ -15,21 +15,19 @@
         // check credintials
         if(isset($_SESSION['user_id'])){
             if($_SESSION['user_role'] == 'admin'){
-                echo "<ul>";
-                echo "<li><a href='admin.php'>Admin dashboard</a></li>";
-                echo "<li><a href='logout.php'>Log out</a></li>";
-                echo "</ul>";
-                echo "<span class='span-style'>Enroll students</span>";
                 echo "<form action='enroll.php' method='post'>";
-                // fetch users from database and display them in a dropdown list
+                // fetch user id
+                echo "<label for='user_id'>User name</label>";
                 $result = $operations->retrieveUsers();
-                if($result->num_rows > 0){
-                    echo "<label for='user_id'>username</label>";
-                    echo "<select name='user_id' id='user_id'>";
-                    while($row = $result->fetch_assoc() ){
-                        echo "<option value=".$row['user_id'].">".$row['user_name']."</option>";
+                    if($result->num_rows > 0){
+                        echo "<select name
+                        ='user_id' id='user_id'>";
+                        while($row = $result->fetch_assoc() ){
+                            echo "<option value=".$row['user_id'].">".$row['user_name']."</option>";
+                        }
+                        echo "</select>";
                     }
-                    echo "</select>";
+
                 // fetch courses from database and display them in a dropdown list
                         echo "<label for='course_id'>course name</label>";
                         $result = $operations->retrieveCourses();
@@ -70,13 +68,28 @@
                 echo "<input type='submit' value='Enroll'>";
                 echo "</form>";
                 if(isset($_POST['user_id']) && isset($_POST['course_id']) && isset($_POST['semester']) && isset($_POST['year']) && isset($_POST['grade'])){
+                    // check if the user is already enrolled in the course
                     $user_id = $_POST['user_id'];
                     $course_id = $_POST['course_id'];
                     $semester = $_POST['semester'];
                     $year = $_POST['year'];
                     $grade = $_POST['grade'];
-                    $operations->enroll($user_id,$course_id,$semester,$year,$grade);
-                    header("Location: admin.php");
+                    try{
+                        $result = $operations->checkEnrollment($user_id, $course_id);
+                        if($result->num_rows > 0){
+                            echo "The user is already enrolled in the course";
+                        }else{
+                            $result = $operations->enroll($user_id, $course_id, $semester, $year, $grade);
+                            if($result){
+                                echo "Enrollment successful";
+                                header("Location: admin.php");
+                            }else{
+                                echo "Enrollment failed";
+                            }
+                        }
+                    }catch(Exception $e){
+                        echo $e->getMessage();
+                    }
                 }
             }else{
                 echo "<ul>";
@@ -116,7 +129,6 @@
                             
             }
         }
-    }
     ?>
 </body>
 </html>

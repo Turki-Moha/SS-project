@@ -116,6 +116,52 @@
             }catch(Exception $e){
                 echo $e->getMessage();
             }
+            ?>
+            <span class='span-style'>Enrolled courses</span>
+            <?php
+            // display ENROLLED courses with the names of the students
+            try{
+                $result = $operations->displayEnrolledCourses();
+                if($result->num_rows > 0){
+                    echo "<table>";
+                    echo "<tr>";
+                    echo "<th>student_name</th>";
+                    echo "<th>course_name</th>";
+                    echo "<th>course_description</th>";
+                    echo "<th>credits</th>";
+                    echo "<th>semester</th>";
+                    echo "<th>year</th>";
+                    echo "<th>grade</th>";
+                    echo "<th></th>";
+                    echo "<th></th>";
+                    echo "</tr>";
+                    echo "<tr>";
+                    while($row = $result->fetch_assoc() ){
+                        echo "<td>".$row["user_name"]."</td>";
+                        echo "<td>".$row['course_name']."</td>";
+                        echo "<td>".$row["course_description"]."</td>";
+                        echo "<td>".$row["course_credits"]."</td>";
+                        echo "<td>".$row["enrollment_semester"]."</td>";
+                        echo "<td>".$row["enrollment_year"]."</td>";
+                        echo "<td>".$row["enrollment_grade"]."</td>";
+                        echo "<td><a href='delete_enrollment.php?course_id=".$row['course_id']."&user_id=".$row['user_id']."'>Delete</a></td>";
+                        echo "<td><a href='update_enrollment.php?course_id=".$row['course_id']."&user_id=".$row['user_id']."&grade=".$row['enrollment_grade']."&semester=".$row['enrollment_semester']."&year=".$row['enrollment_year']."'>Update</a></td>";
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                    echo "<style>table, th, td {border: 1px solid black;}</style>
+                    <style>table {border-collapse: collapse;}</style>
+                    <style>th, td {padding: 5px;}</style>
+                    <style>th {text-align: left;}</style>
+                    <style>table {width: 75%;}</style>
+                    <style>th,tr,td {background-color: #f1f1f1;color: black;}</style>
+                    ";
+                }else{
+                    echo "No courses found";
+                }
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }
 
         ?>
 
