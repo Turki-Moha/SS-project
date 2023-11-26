@@ -31,7 +31,6 @@ CREATE TABLE users(
 );
 INSERT INTO users (user_name, user_password, user_email, user_role)
 VALUES ('turki', 'turki', 'turki@t.com', 'admin');
-
 INSERT INTO course (course_name, course_description, course_credits)
 VALUES (
         'Web Development',
@@ -80,5 +79,6 @@ VALUES (
         'Learn how to secure a computer',
         3
     );
-
-UPDATE users SET user_role = 'admin' WHERE user_id = 1;
+UPDATE users
+SET user_role = 'admin'
+WHERE user_id = 1;

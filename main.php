@@ -69,16 +69,40 @@
                         $result = $operations->displayRegisteredCourses($user_id);
                         if($result->num_rows > 0){
                             while($row = $result->fetch_assoc()){
-                                echo "<li><a href='course.php?course_id=".$row['course_id']."'>".$row['course_name']."</a></li>";
+                                // display courses in a table
+                                echo "<span style='font-size: 20px;margin:10px;display:block;'>Registered courses</span>";
+                                echo "<table>";
+                                echo "<tr>";
+                                echo "<th>course_name</th>";
+                                echo "<th>credits</th>";
+                                echo "<th>semester</th>";
+                                echo "<th>year</th>";
+                                echo "<th>grade</th>";
+                                echo "</tr>";
+                                echo "<tr>";
+                                echo "<td>".$row['course_name']."</td>";
+                                echo "<td>".$row["course_credits"]."</td>";
+                                echo "<td>".$row["enrollment_semester"]."</td>";
+                                echo "<td>".$row["enrollment_year"]."</td>";
+                                echo "<td>".$row["enrollment_grade"]."</td>";
+                                echo "</tr>";
+                                echo "</table>";
+                                echo "<style>table, th, td {border: 1px solid black;}</style>
+                                <style>table {border-collapse: collapse;}</style>
+                                <style>th, td {padding: 5px;}</style>
+                                <style>th {text-align: left;}</style>
+                                <style>table {width: 100%;}</style>
+                                <style>th,tr,td {background-color: #f1f1f1;color: black;}</style>
+                                ";
                             }
                         }else{
-                            echo "No courses found";
+                            echo "No courses registered found";
                         }
                     }catch(Exception $e){
                         echo $e->getMessage();
                     }
                 }else{
-                    echo "No courses found";
+                    echo "No courses registered found";
                 }
             ?>
     </div>

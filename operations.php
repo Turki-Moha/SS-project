@@ -150,7 +150,7 @@ class Operations extends DBConfig{
     // display registered courses based on the user account
     public function displayRegisteredCourses($user_id){
         try{
-            $sql = "SELECT * FROM course WHERE course_id IN (SELECT course_id FROM enrollment WHERE student_id = '$user_id')";
+            $sql = "SELECT * FROM enrollment INNER JOIN course ON enrollment.course_id = course.course_id WHERE enrollment.user_id = '$user_id'";
             $result = $this->conn->query($sql);
             if($result->num_rows > 0){
                 return $result;
@@ -227,6 +227,19 @@ class Operations extends DBConfig{
                 return true;
             }else{
                 throw new Exception("User update failed");
+            }
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+    }
+    // enroll students in courses which have enrollment_id	student_id	course_id	enrollment_semester	enrollment_year	enrollment_grade	
+    public function enroll($user_id, $course_id,$semester, $year, $grade){
+        try{
+            $sql = "INSERT INTO enrollment (user_id, course_id, enrollment_semester, enrollment_year, enrollment_grade) VALUES ('$user_id', '$course_id', '$semester', '$year', '$grade')";
+            if($this->conn->query($sql)){
+                return true;
+            }else{
+                throw new Exception("Enrollment failed");
             }
         }catch(Exception $e){
             throw new Exception($e->getMessage());

@@ -7,15 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <ul>
+        <li><a href="logout.php" >Log out</a></li>
+    </ul>
     <span class="span-style">Users of the system</span>
     <?php
             include_once 'operations.php';
             $operations = new Operations();
             $operations->dbConnect();
+            // check credintials
+            session_start();
             try{
                 $result = $operations->retrieveUsers();
                 if($result->num_rows > 0){
-                    echo "Add courses <a href='add.php'>here</a>";
                     echo "<table>";
                     echo "<tr>";
                     echo "<th>user_id</th>";
@@ -47,6 +51,9 @@
             }
         ?>
         <span class="span-style">Courses of the system</span>
+            <ul>
+                <li><a href="add.php">Add courses</a></li>
+            </ul>
         <?php
             try{
                 $result = $operations->retrieveCourses();
@@ -90,6 +97,7 @@
                     echo "<th>student_email</th>";
                     echo "<th>student_password</th>";
                     echo "<th></th>";
+                    echo "<th></th>";
                     echo "</tr>";
                     echo "<tr>";
                     while($row = $result->fetch_assoc() ){
@@ -98,6 +106,7 @@
                         echo "<td>".$row["user_email"]."</td>";
                         echo "<td>".$row["user_password"]."</td>";
                         echo "<td> <a href='delete_user.php?user_id=".$row['user_id']."'>Delete</a></td>";
+                        echo "<td> <a href='enroll.php?user_id=".$row['user_id']."'>Enroll</a></td>";
                         echo "</tr>";
                     }
                     echo "</table>";
