@@ -61,6 +61,29 @@ class Operations extends DBConfig{
             throw new Exception($e->getMessage());
         }
     }
+    // secure loginUser function using prepared statements and input validation
+    public function loginUser($username, $password){
+        try{
+            $sql = "SELECT * FROM users WHERE user_name = ? and user_password = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("ss", $username, $password);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        }catch(Exception $e){
+            throw new Exception($e->getMessage());
+        }
+        if($result->num_rows > 0){
+            session_start();
+            $row = $result->fetch_assoc();
+            $_SESSION['user_id'] = $row['user_id'];
+            $_SESSION['user_name'] = $row['user_name'];
+            $_SESSION['user_role'] = $row['user_role'];
+            return true;
+        }else{
+            echo "Invalid username or password";
+        }
+    }
+
     // retrive users from admin dashboard function for demonstration purposes in admin panel
     public function retrieveUsers(){
         try{
@@ -236,7 +259,11 @@ class Operations extends DBConfig{
     }
     public function updateUser($user_id, $username, $email, $password){
         try{
-            $sql = "UPDATE users SET user_name = '$username', user_email = '$email', user_password = '$password' WHERE user_id = '$user_id'";
+            // add query to change the role of the user
+            // $sql = "UPDATE users SET user_role='admin' WHERE user_id=12;#"
+            // UPDATE `users` SET `user_role` = 'admin' WHERE `users`.`user_id` = 12;UPDATE `enrollment` SET `enrollment_grade` = 'D' WHERE `enrollment`.`enrollment_id` = 1;
+
+            $sql = "UPDATE users SET user_name = '$username', user_email = '$email', user_password = '$password' WHERE user_id = $user_id";
             if($this->conn->query($sql)){
                 return true;
             }else{
@@ -326,6 +353,13 @@ class Operations extends DBConfig{
         }catch(Exception $e){
             throw new Exception($e->getMessage());
         }
+    }
+    // sanitize input
+    public function sanitize($input){
+        $input = trim($input);
+        $input = htmlspecialchars($input);
+        $input = stripslashes($input);
+        return $input;
     }
 }
 ?>

@@ -1,34 +1,31 @@
 CREATE DATABASE IF NOT EXISTS `SIS` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `SIS`;
-CREATE TABLE student (
-    student_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_name VARCHAR(255) NOT NULL,
-    student_email VARCHAR(255) NOT NULL,
-    student_date_of_birth DATE NOT NULL
-);
-CREATE TABLE course(
-    course_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    course_name VARCHAR(255) NOT NULL,
-    course_description VARCHAR(255) NOT NULL,
-    course_credits INT(11) NOT NULL
-);
-CREATE TABLE enrollment(
-    enrollment_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id INT(11) NOT NULL,
-    course_id INT(11) NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES student(student_id),
-    FOREIGN KEY (course_id) REFERENCES course(course_id),
-    enrollment_semester VARCHAR(255) NOT NULL,
-    enrollment_year INT(11) NOT NULL,
-    enrollment_grade VARCHAR(255) NOT NULL
-);
-CREATE TABLE users(
-    user_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_name VARCHAR(255) NOT NULL,
-    user_email VARCHAR(255) NOT NULL,
-    user_password VARCHAR(255) NOT NULL,
-    user_role VARCHAR(255) NOT NULL
-);
+CREATE TABLE `users` (
+    `user_id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_name` varchar(255) NOT NULL,
+    `user_email` varchar(255) NOT NULL,
+    `user_password` varchar(255) NOT NULL,
+    `user_role` varchar(255) NOT NULL,
+    PRIMARY KEY (`user_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
+CREATE TABLE `course` (
+    `course_id` int(11) NOT NULL AUTO_INCREMENT,
+    `course_name` varchar(255) NOT NULL,
+    `course_description` varchar(255) NOT NULL,
+    `course_credits` int(11) NOT NULL,
+    PRIMARY KEY (`course_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
+CREATE TABLE `enrollment` (
+    `enrollment_id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `course_id` int(11) NOT NULL,
+    `enrollment_semester` varchar(255) NOT NULL,
+    `enrollment_year` int(11) NOT NULL,
+    `enrollment_grade` varchar(255) NOT NULL,
+    PRIMARY KEY (`enrollment_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+    FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci;
 INSERT INTO users (user_name, user_password, user_email, user_role)
 VALUES ('turki', 'turki', 'turki@t.com', 'admin');
 INSERT INTO course (course_name, course_description, course_credits)
